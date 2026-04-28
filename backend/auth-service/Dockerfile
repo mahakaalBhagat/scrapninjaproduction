@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 # Build stage
 FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
@@ -8,8 +7,7 @@ WORKDIR /build
 COPY backend /build
 
 # Build all modules so parent POM is resolved correctly
-RUN --mount=type=cache,target=/root/.m2 \
-    mvn clean install -DskipTests -q
+RUN mvn clean install -DskipTests -q
 
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
