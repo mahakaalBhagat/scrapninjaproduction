@@ -37,7 +37,7 @@ export default function IntroVideo({ onComplete }: IntroVideoProps) {
         muted
         playsInline
         autoPlay
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain"
       />
     </div>
   );
