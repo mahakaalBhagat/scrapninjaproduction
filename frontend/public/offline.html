@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScrapNinja - Offline</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+        background: linear-gradient(135deg, #eaf3ec 0%, #f5f7f6 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .offline-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .logo {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #0b7a3e 0%, #0f9d58 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        font-size: 32px;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 12px;
+      }
+
+      p {
+        font-size: 16px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 12px 32px;
+        background: #0b7a3e;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+      }
+
+      .button:hover {
+        background: #0f9d58;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(15, 157, 88, 0.3);
+      }
+
+      .tips {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #e5e7eb;
+        text-align: left;
+      }
+
+      .tips h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 12px;
+      }
+
+      .tips ul {
+        list-style: none;
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .tips li {
+        margin-bottom: 8px;
+      }
+
+      .tips li:before {
+        content: '✓ ';
+        color: #0b7a3e;
+        font-weight: bold;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offline-container">
+      <div class="logo">🌐</div>
+      <h1>You're Offline</h1>
+      <p>
+        It looks like you don't have an active internet connection. Please check
+        your connection and try again.
+      </p>
+      <button class="button" onclick="location.reload()">Try Again</button>
+
+      <div class="tips">
+        <h3>What you can do:</h3>
+        <ul>
+          <li>Check your internet connection</li>
+          <li>Refresh the page</li>
+          <li>Try again in a few moments</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

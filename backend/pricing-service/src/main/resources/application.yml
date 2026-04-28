@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: pricing-service
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        max.block.ms: 5000
+        spring.json.type.mapping: >
+          priceEvent:com.scrapninja.pricing.event.PriceEvent
+    listener:
+      missing-topics-fatal: false
+    consumer:
+      group-id: pricing-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.scrapninja.*
+        spring.json.type.mapping: >
+          pickupEvent:com.scrapninja.pricing.event.PickupEvent,
+          userEvent:com.scrapninja.pricing.event.UserEvent
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/scrapninja_pricing}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8083
+  servlet:
+    context-path: /api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    root: INFO
+    com.scrapninja.pricing: DEBUG
+    org.hibernate.SQL: DEBUG

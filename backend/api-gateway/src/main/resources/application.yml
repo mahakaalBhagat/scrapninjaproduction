@@ -1,0 +1,71 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "http://localhost:3001"
+              - "http://localhost"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/auth/**
+
+        - id: contact-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/contact/**
+
+        - id: pickup-service
+          uri: ${PICKUP_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/pickups/**
+
+        - id: pricing-service
+          uri: ${PRICING_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/pricing/**
+
+        - id: location-service
+          uri: ${LOCATION_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/locations/**
+
+        - id: enquiry-service
+          uri: ${ENQUIRY_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/leads/**
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.scrapninja.gateway: DEBUG
