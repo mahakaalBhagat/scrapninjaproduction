@@ -12,7 +12,7 @@ RUN npm ci
 COPY . .
 
 # Bake the API URL at build time (NEXT_PUBLIC_* are inlined by Next.js compiler)
-ARG NEXT_PUBLIC_API_URL=http://localhost/api
+ARG NEXT_PUBLIC_API_URL=/api
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 RUN npm run build
