@@ -27,7 +27,7 @@ export default function IntroVideo({ onComplete }: IntroVideoProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] bg-black flex items-center justify-center transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[9999] bg-white flex items-center justify-center transition-opacity duration-500 ${
         visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
@@ -37,7 +37,7 @@ export default function IntroVideo({ onComplete }: IntroVideoProps) {
         muted
         playsInline
         autoPlay
-        className="w-full h-full object-cover"
+        className="w-full max-w-full md:w-full md:h-full object-contain md:object-cover"
         onTimeUpdate={(e) => {
           const v = e.currentTarget;
           if (v.duration && v.currentTime >= v.duration - 0.8) {
