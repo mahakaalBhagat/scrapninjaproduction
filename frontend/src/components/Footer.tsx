@@ -126,7 +126,7 @@ export const Footer = () => {
           >
             {[
               { label: 'Facebook', url: 'https://www.facebook.com/share/1ENPhgar3P/' },
-              { label: 'X', url: '#' },
+              { label: 'WhatsApp', url: 'https://wa.me/916306607679' },
               { label: 'LinkedIn', url: 'https://www.linkedin.com/company/scrapninja/?viewAsMember=true' },
               { label: 'Instagram', url: 'https://www.instagram.com/goscrapninja?igsh=cTdzNHA4aGdza2Iw' },
             ].map((social) => (
