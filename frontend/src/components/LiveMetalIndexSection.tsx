@@ -403,10 +403,10 @@ export const LiveMetalIndexSection = () => {
         {/* Scrap Items Grid */}
         {filteredItems.length > 0 ? (
           <motion.div 
+            key={selectedCategory + searchTerm}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             initial="hidden"
-            whileInView="visible"
-            viewport={viewportConfig}
+            animate="visible"
             variants={animations.staggerContainer}
           >
             {filteredItems.map((item) => (

@@ -41,7 +41,7 @@ export const Navbar = () => {
             : 'bg-transparent'
         }`}
       >
-        <div className="container-responsive flex items-center h-32 px-6">
+        <div className="container-responsive flex items-center h-16 md:h-32 px-4 md:px-6">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="hover:opacity-80 transition-opacity flex items-center">
@@ -50,7 +50,7 @@ export const Navbar = () => {
                 alt="ScrapNinja"
                 width={420}
                 height={140}
-                className="object-contain"
+                className="object-contain w-32 h-auto md:w-[280px]"
                 priority
               />
             </Link>
@@ -126,7 +126,7 @@ export const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className={`md:hidden p-2 rounded-lg transition-colors ${
+            className={`md:hidden ml-auto p-2 rounded-lg transition-colors ${
               scrollPosition > 50 ? 'text-neutral-900' : 'text-primary-600'
             }`}
           >

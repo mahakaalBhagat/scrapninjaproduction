@@ -78,6 +78,7 @@ export const cardHover = {
   whileHover: { 
     y: -8,
     scale: 1.02,
+    zIndex: 10,
     boxShadow: '0 18px 34px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(11, 122, 62, 0.12), 0 0 22px rgba(11, 122, 62, 0.16)',
     filter: 'brightness(1.02) contrast(1.02)',
     transition: { duration: 0.38, ease: [0.22, 1, 0.36, 1] }

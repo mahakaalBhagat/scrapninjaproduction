@@ -37,7 +37,13 @@ export default function IntroVideo({ onComplete }: IntroVideoProps) {
         muted
         playsInline
         autoPlay
-        className="w-full h-full object-contain"
+        className="w-full h-full object-cover"
+        onTimeUpdate={(e) => {
+          const v = e.currentTarget;
+          if (v.duration && v.currentTime >= v.duration - 0.8) {
+            dismiss();
+          }
+        }}
       />
     </div>
   );

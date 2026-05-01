@@ -45,14 +45,14 @@ export const ContactSection = () => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'info@scrapninja.ae',
-      href: 'mailto:info@scrapninja.ae',
+      value: 'info@goscrapninja.com',
+      href: 'mailto:info@goscrapninja.com',
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+971 50 000 0000',
-      href: 'tel:+971500000000',
+      value: '+91 6306607679',
+      href: 'tel:+91 6306607679',
     },
     {
       icon: MapPin,
@@ -135,7 +135,7 @@ export const ContactSection = () => {
                   <input
                     id="phone"
                     type="tel"
-                    placeholder="+971 50 000 0000"
+                    placeholder="+91 6306607679"
                     className="form-input"
                     {...register('phone')}
                   />
@@ -204,22 +204,19 @@ export const ContactSection = () => {
             {contactInfo.map((info) => {
               const IconComponent = info.icon;
               return (
-                <motion.a
+                <a
                   key={info.label}
                   href={info.href}
-                  className="card group hover:bg-primary-50 cursor-pointer"
-                  {...cardHover}
+                  className="flex items-start gap-4 p-4 rounded-xl border border-neutral-200 bg-white hover:border-primary-300 hover:bg-primary-50 transition-colors group"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary-100 group-hover:bg-primary-200 rounded-lg transition-colors mt-1">
-                      <IconComponent className="w-6 h-6 text-primary-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-neutral-600 mb-1">{info.label}</p>
-                      <p className="font-semibold text-neutral-900">{info.value}</p>
-                    </div>
+                  <div className="p-3 bg-primary-100 group-hover:bg-primary-200 rounded-lg transition-colors shrink-0">
+                    <IconComponent className="w-6 h-6 text-primary-600" />
                   </div>
-                </motion.a>
+                  <div className="min-w-0">
+                    <p className="text-sm text-neutral-500 mb-0.5">{info.label}</p>
+                    <p className="font-semibold text-neutral-900 break-words">{info.value}</p>
+                  </div>
+                </a>
               );
             })}
 
@@ -236,14 +233,16 @@ export const ContactSection = () => {
                 variants={animations.staggerContainer}
               >
                 {[
-                  { label: 'Facebook', Icon: Facebook },
-                  { label: 'Twitter', Icon: Twitter },
-                  { label: 'LinkedIn', Icon: Linkedin },
-                  { label: 'Instagram', Icon: Instagram },
-                ].map(({ label, Icon }) => (
+                  { label: 'Facebook', Icon: Facebook, url: 'https://www.facebook.com/share/1ENPhgar3P/' },
+                  { label: 'X', Icon: Twitter, url: '#' },
+                  { label: 'LinkedIn', Icon: Linkedin, url: 'https://www.linkedin.com/company/scrapninja/?viewAsMember=true' },
+                  { label: 'Instagram', Icon: Instagram, url: 'https://www.instagram.com/goscrapninja?igsh=cTdzNHA4aGdza2Iw' },
+                ].map(({ label, Icon, url }) => (
                   <motion.a
                     key={label}
-                    href="#"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     title={label}
                     className="w-10 h-10 rounded-lg bg-neutral-200 hover:bg-primary-600 text-neutral-700 hover:text-white flex items-center justify-center transition-colors"
                     variants={staggerChild}

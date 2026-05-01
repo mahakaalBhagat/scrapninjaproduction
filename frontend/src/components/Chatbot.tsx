@@ -56,6 +56,13 @@ const uid = () => `msg-${++msgId}`;
 // ── Component ──────────────────────────────────────────
 export const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [ripple, setRipple] = useState(false);
+
+  const handleButtonClick = () => {
+    setRipple(true);
+    setTimeout(() => setRipple(false), 600);
+    setIsOpen((prev) => !prev);
+  };
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [currentStep, setCurrentStep] = useState<FlowStep>('welcome');
@@ -326,155 +333,192 @@ export const Chatbot = () => {
   };
 
   // ── Render ───────────────────────────────────────────
+  const circleText = 'Ask Me • Ask Me • ';
+
   return (
     <>
-      {/* Floating button */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 rounded-full overflow-hidden flex items-center justify-center focus:outline-none transition-all ${
-          isOpen ? 'w-14 h-14 bg-primary-600 text-white shadow-lg hover:bg-primary-700' : 'w-[84px] h-[84px] bg-transparent shadow-none'
-        }`}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label={isOpen ? 'Close chat' : 'Open chat'}
+      {/* Single draggable container — button + chat window move together */}
+      <motion.div
+        drag
+        dragMomentum={false}
+        dragElastic={0}
+        className="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing"
+        style={{ touchAction: 'none' }}
       >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.span
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
+        {/* Chat window — positioned above the button, inside same container */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="absolute bottom-full mb-4 right-0 w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-neutral-200 cursor-default"
+              onPointerDown={(e) => e.stopPropagation()}
             >
-              <X size={24} />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="open"
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <div className="absolute inset-0">
-                <Image
-                  src="/ScrapNinja Logo Without Text.png"
-                  alt="ScrapNinja"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.button>
-
-      {/* Chat window */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-neutral-200"
-          >
-            {/* Header */}
-            <div className="bg-primary-600 text-white px-5 py-4 flex items-center gap-3 shrink-0">
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">
-                🥷
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm leading-tight">ScrapNinja</p>
-                <p className="text-xs text-white/70">Online • Pre-launch support</p>
-              </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-1 rounded hover:bg-white/20 transition-colors"
-                aria-label="Minimize chat"
-              >
-                <ChevronDown size={18} />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-neutral-50"
-            >
-              {messages.map((msg, i) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.25, delay: i === messages.length - 1 ? 0.05 : 0 }}
-                  className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
-                      msg.from === 'user'
-                        ? 'bg-primary-600 text-white rounded-br-md'
-                        : 'bg-white text-neutral-800 shadow-sm border border-neutral-100 rounded-bl-md'
-                    }`}
-                  >
-                    {msg.text}
-
-                    {/* Option buttons */}
-                    {msg.options && msg.options.length > 0 && (
-                      <div className="mt-3 flex flex-col gap-2">
-                        {msg.options.map((opt) => (
-                          <button
-                            key={opt.action}
-                            onClick={() => handleOption(opt.action)}
-                            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium bg-primary-50 text-primary-700 hover:bg-primary-100 active:bg-primary-200 transition-colors border border-primary-200"
-                          >
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Input area */}
-            {awaitingInput ? (
-              <div className="px-4 py-3 bg-white border-t border-neutral-200 flex gap-2 shrink-0">
-                <input
-                  ref={inputRef}
-                  type={awaitingInput === 'phone' ? 'tel' : 'text'}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={
-                    awaitingInput === 'name'
-                      ? 'Enter your name...'
-                      : 'Enter your phone number...'
-                  }
-                  className="flex-1 px-4 py-2.5 rounded-full bg-neutral-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 border-none"
-                  autoFocus
-                />
+              {/* Header */}
+              <div className="bg-primary-600 text-white px-5 py-4 flex items-center gap-3 shrink-0">
+                <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">
+                  🥷
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm leading-tight">ScrapNinja</p>
+                  <p className="text-xs text-white/70">Online • Pre-launch support</p>
+                </div>
                 <button
-                  onClick={handleSend}
-                  disabled={!inputValue.trim()}
-                  className="w-10 h-10 rounded-full bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700 disabled:opacity-40 transition-colors shrink-0"
-                  aria-label="Send"
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 rounded hover:bg-white/20 transition-colors"
+                  aria-label="Minimize chat"
                 >
-                  <Send size={16} />
+                  <ChevronDown size={18} />
                 </button>
               </div>
-            ) : (
-              <div className="px-4 py-3 bg-white border-t border-neutral-200 shrink-0">
-                <p className="text-xs text-neutral-400 text-center">
-                  Choose an option above to continue 👆
-                </p>
+
+              {/* Messages */}
+              <div
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-neutral-50"
+              >
+                {messages.map((msg, i) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25, delay: i === messages.length - 1 ? 0.05 : 0 }}
+                    className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
+                        msg.from === 'user'
+                          ? 'bg-primary-600 text-white rounded-br-md'
+                          : 'bg-white text-neutral-800 shadow-sm border border-neutral-100 rounded-bl-md'
+                      }`}
+                    >
+                      {msg.text}
+                      {msg.options && msg.options.length > 0 && (
+                        <div className="mt-3 flex flex-col gap-2">
+                          {msg.options.map((opt) => (
+                            <button
+                              key={opt.action}
+                              onClick={() => handleOption(opt.action)}
+                              className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium bg-primary-50 text-primary-700 hover:bg-primary-100 active:bg-primary-200 transition-colors border border-primary-200"
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
               </div>
+
+              {/* Input area */}
+              {awaitingInput ? (
+                <div className="px-4 py-3 bg-white border-t border-neutral-200 flex gap-2 shrink-0">
+                  <input
+                    ref={inputRef}
+                    type={awaitingInput === 'phone' ? 'tel' : 'text'}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={awaitingInput === 'name' ? 'Enter your name...' : 'Enter your phone number...'}
+                    className="flex-1 px-4 py-2.5 rounded-full bg-neutral-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 border-none"
+                    autoFocus
+                  />
+                  <button
+                    onClick={handleSend}
+                    disabled={!inputValue.trim()}
+                    className="w-10 h-10 rounded-full bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700 disabled:opacity-40 transition-colors shrink-0"
+                    aria-label="Send"
+                  >
+                    <Send size={16} />
+                  </button>
+                </div>
+              ) : (
+                <div className="px-4 py-3 bg-white border-t border-neutral-200 shrink-0">
+                  <p className="text-xs text-neutral-400 text-center">
+                    Choose an option above to continue 👆
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Floating button */}
+        <div className="relative flex items-center justify-center">
+          {/* Idle pulse rings — only when closed */}
+          {!isOpen && (
+            <>
+              <span className="absolute inline-flex rounded-full w-[76px] h-[76px] bg-green-400 opacity-30 animate-ping" style={{ animationDuration: '3s' }} />
+              <span className="absolute inline-flex rounded-full w-[76px] h-[76px] bg-green-400 opacity-15 animate-ping" style={{ animationDuration: '3s', animationDelay: '1s' }} />
+            </>
+          )}
+          {/* Click ripple burst */}
+          <AnimatePresence>
+            {ripple && (
+              <motion.span
+                className="absolute rounded-full bg-green-400 pointer-events-none"
+                initial={{ width: 76, height: 76, opacity: 0.6 }}
+                animate={{ width: 160, height: 160, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.55, ease: 'easeOut' }}
+                style={{ translateX: '-50%', translateY: '-50%', left: '50%', top: '50%' }}
+              />
             )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </AnimatePresence>
+          <motion.button
+            onClick={handleButtonClick}
+          className={`relative rounded-full flex items-center justify-center focus:outline-none transition-all ${
+            isOpen ? 'w-14 h-14 bg-primary-600 text-white shadow-lg hover:bg-primary-700' : 'w-[76px] h-[76px] bg-transparent shadow-none'
+          }`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label={isOpen ? 'Close chat' : 'Open chat'}
+        >
+          <AnimatePresence mode="wait">
+            {isOpen ? (
+              <motion.span
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <X size={24} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="open"
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.5, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="relative w-full h-full flex items-center justify-center"
+              >
+                <motion.svg
+                  viewBox="0 0 76 76"
+                  className="absolute inset-0 w-full h-full"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                >
+                  <defs>
+                    <path id="circlePath" d="M 38,38 m -28,0 a 28,28 0 1,1 56,0 a 28,28 0 1,1 -56,0" />
+                  </defs>
+                  <text fill="#16a34a" fontFamily="inherit" fontSize="7.5" fontWeight="600" letterSpacing="1.5">
+                    <textPath href="#circlePath">{circleText}</textPath>
+                  </text>
+                </motion.svg>
+                <div className="relative w-[56px] h-[56px] rounded-full overflow-hidden">
+                  <Image src="/ScrapNinja Logo Without Text.png" alt="ScrapNinja" fill className="object-cover" />
+                </div>
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
+        </div>
+      </motion.div>
     </>
   );
 };

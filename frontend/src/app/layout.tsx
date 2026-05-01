@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Providers } from './providers';
 import { Chatbot } from '@/components/Chatbot';
 import '@/styles/globals.css';
+import 'ol/ol.css';
 
 export const metadata: Metadata = {
   title: 'ScrapNinja - Smart Scrap Collection Platform',

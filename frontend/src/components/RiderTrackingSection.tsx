@@ -4,61 +4,62 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, CheckCircle } from 'lucide-react';
 import { animations, viewportConfig, staggerChild, cardHover } from '@/utils/animations';
+import { RiderMap } from './RiderMap';
+
+const RIDERS = [
+  {
+    id: 1,
+    name: 'Ahmed Al-Mansoori',
+    status: 'En Route',
+    location: 'Al Quoz, Dubai',
+    latitude: 25.1400,
+    longitude: 55.2200,
+    phone: '+971 50 123 4567',
+    eta: '12 mins',
+    pickups: 8,
+    rating: 4.8,
+  },
+  {
+    id: 2,
+    name: 'Fatima Al-Mazrouei',
+    status: 'Completed Pickup',
+    location: 'Business Bay, Dubai',
+    latitude: 25.1850,
+    longitude: 55.2650,
+    phone: '+971 50 234 5678',
+    eta: 'Completed',
+    pickups: 12,
+    rating: 4.9,
+  },
+  {
+    id: 3,
+    name: 'Mohammed Al-Falahi',
+    status: 'En Route',
+    location: 'Al Barsha, Dubai',
+    latitude: 25.1100,
+    longitude: 55.2000,
+    phone: '+971 50 345 6789',
+    eta: '8 mins',
+    pickups: 15,
+    rating: 5.0,
+  },
+  {
+    id: 4,
+    name: 'Layla Al-Hosni',
+    status: 'Pickup Confirmed',
+    location: 'Dubai Industrial City',
+    latitude: 24.9950,
+    longitude: 55.2800,
+    phone: '+971 50 456 7890',
+    eta: '15 mins',
+    pickups: 10,
+    rating: 4.7,
+  },
+];
 
 export const RiderTrackingSection = () => {
   const [activeRider, setActiveRider] = useState(0);
-
-  // Mock rider data with locations
-  const riders = [
-    {
-      id: 1,
-      name: 'Ahmed Al-Mansoori',
-      status: 'En Route',
-      location: 'Deira, Dubai',
-      latitude: 25.2854,
-      longitude: 55.3136,
-      phone: '+971 50 123 4567',
-      eta: '12 mins',
-      pickups: 8,
-      rating: 4.8,
-    },
-    {
-      id: 2,
-      name: 'Fatima Al-Mazrouei',
-      status: 'Completed Pickup',
-      location: 'Downtown Dubai',
-      latitude: 25.1972,
-      longitude: 55.2744,
-      phone: '+971 50 234 5678',
-      eta: 'Completed',
-      pickups: 12,
-      rating: 4.9,
-    },
-    {
-      id: 3,
-      name: 'Mohammed Al-Falahi',
-      status: 'En Route',
-      location: 'Marina, Dubai',
-      latitude: 25.0883,
-      longitude: 55.1412,
-      phone: '+971 50 345 6789',
-      eta: '8 mins',
-      pickups: 15,
-      rating: 5.0,
-    },
-    {
-      id: 4,
-      name: 'Layla Al-Hosni',
-      status: 'Pickup Confirmed',
-      location: 'JBR, Dubai',
-      latitude: 25.0976,
-      longitude: 55.1834,
-      phone: '+971 50 456 7890',
-      eta: '15 mins',
-      pickups: 10,
-      rating: 4.7,
-    },
-  ];
+  const riders = RIDERS;
 
   return (
     <section id="rider-tracking" className="py-16 md:py-24 bg-white">
@@ -90,46 +91,13 @@ export const RiderTrackingSection = () => {
             className="lg:col-span-2"
             variants={staggerChild}
           >
-            <div className="bg-neutral-100 rounded-lg overflow-hidden h-96 md:h-full shadow-lg border border-neutral-200 relative">
-              {/* OpenStreetMap - Dubai */}
-              <iframe
-                title="Dubai map"
-                className="absolute inset-0 w-full h-full border-0"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=54.95%2C24.95%2C55.55%2C25.45&layer=mapnik&marker=25.2048%2C55.2708"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+            <div className="bg-neutral-100 rounded-lg overflow-hidden h-96 md:h-full min-h-[420px] shadow-lg border border-neutral-200 relative">
+              <RiderMap
+                riders={riders}
+                activeRider={activeRider}
+                onSelectRider={setActiveRider}
               />
-
-              {/* Animated Rider Markers */}
-              <div className="absolute inset-0 z-10 pointer-events-none">
-                {riders.map((rider, idx) => (
-                  <motion.button
-                    key={rider.id}
-                    type="button"
-                    className={`absolute w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all pointer-events-auto ${
-                      activeRider === idx
-                        ? 'bg-primary-600 border-primary-700 scale-125'
-                        : 'bg-blue-400 border-blue-500 hover:scale-110'
-                    }`}
-                    style={{
-                      left: `${20 + idx * 20}%`,
-                      top: `${30 + idx * 15}%`,
-                    }}
-                    onClick={() => setActiveRider(idx)}
-                    whileHover={{ scale: 1.15 }}
-                    animate={{
-                      boxShadow: activeRider === idx
-                        ? '0 0 20px rgba(59, 130, 246, 0.6)'
-                        : '0 0 10px rgba(59, 130, 246, 0.3)',
-                    }}
-                    aria-label={`Focus rider ${idx + 1}`}
-                  >
-                    <span className="text-white text-xs font-bold">{idx + 1}</span>
-                  </motion.button>
-                ))}
-              </div>
-
-              <div className="absolute left-4 bottom-4 z-10 bg-white/90 backdrop-blur-sm rounded-md px-3 py-1.5 shadow-soft border border-neutral-200">
+              <div className="absolute left-4 bottom-4 z-10 bg-white/90 backdrop-blur-sm rounded-md px-3 py-1.5 shadow border border-neutral-200 pointer-events-none">
                 <p className="text-xs text-neutral-700 font-medium">Live Rider Map - Dubai</p>
               </div>
             </div>

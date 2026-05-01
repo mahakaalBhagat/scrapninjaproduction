@@ -148,6 +148,6 @@ Proprietary - All Rights Reserved
 
 ## 📞 Contact
 
-- **Email**: info@scrapninja.ae
-- **Phone**: +971 50 000 0000
+- **Email**: info@goscrapninja.com
+- **Phone**:  +91 6306607679
 - **Location**: Dubai, United Arab Emirates

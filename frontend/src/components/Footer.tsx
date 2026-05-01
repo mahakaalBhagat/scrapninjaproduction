@@ -125,14 +125,16 @@ export const Footer = () => {
             variants={animations.staggerContainer}
           >
             {[
-              { label: 'Facebook', url: '#' },
-              { label: 'Twitter', url: '#' },
-              { label: 'LinkedIn', url: '#' },
-              { label: 'Instagram', url: '#' },
+              { label: 'Facebook', url: 'https://www.facebook.com/share/1ENPhgar3P/' },
+              { label: 'X', url: '#' },
+              { label: 'LinkedIn', url: 'https://www.linkedin.com/company/scrapninja/?viewAsMember=true' },
+              { label: 'Instagram', url: 'https://www.instagram.com/goscrapninja?igsh=cTdzNHA4aGdza2Iw' },
             ].map((social) => (
               <motion.a
                 key={social.label}
                 href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 title={social.label}
                 className="text-white/70 hover:text-white transition-colors"
                 variants={staggerChild}
@@ -148,11 +150,11 @@ export const Footer = () => {
         <div className="mt-12 pt-8 border-t border-white/20 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <p className="text-white/70 text-sm mb-1">Email</p>
-            <p className="font-semibold">info@scrapninja.ae</p>
+            <p className="font-semibold">info@goscrapninja.com</p>
           </div>
           <div>
             <p className="text-white/70 text-sm mb-1">Phone</p>
-            <p className="font-semibold">+971 50 000 0000</p>
+            <p className="font-semibold">+91 6306607679</p>
           </div>
           <div>
             <p className="text-white/70 text-sm mb-1">Location</p>
