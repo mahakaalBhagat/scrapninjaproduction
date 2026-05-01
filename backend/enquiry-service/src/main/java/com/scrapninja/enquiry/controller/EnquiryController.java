@@ -16,7 +16,8 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"http://localhost", "http://localhost:3000", "http://localhost:3001",
-        "http://127.0.0.1", "http://127.0.0.1:3000"})
+        "http://127.0.0.1", "http://127.0.0.1:3000",
+        "https://goscrapninja.com", "https://www.goscrapninja.com"})
 public class EnquiryController {
 
     private final EnquiryService enquiryService;
