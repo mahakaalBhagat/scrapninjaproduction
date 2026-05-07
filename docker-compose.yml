@@ -319,7 +319,9 @@ services:
 
 volumes:
   postgres_data:
+    name: scapninja_postgres_data
   redis_data:
+    name: scapninja_redis_data
 
 networks:
   scapninja-network:
