@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const IMAGES = [
-  '/backgroung_images/background_imagehome.jpeg',
-  '/backgroung_images/Gemini_Generated_Image_8669b28669b28669.png',
-  '/backgroung_images/Gemini_Generated_Image_gztwcdgztwcdgztw.png',
-  '/backgroung_images/Gemini_Generated_Image_lll1pvlll1pvlll1.png',
-  '/backgroung_images/Gemini_Generated_Image_tqcde1tqcde1tqcd.png',
+  '/backgroung_images/scrap-collection-in-dubai.png',
+  '/backgroung_images/scrap-collection-uae.png',
+  '/backgroung_images/scrap-disposal-report.png',
+  '/backgroung_images/scrapninja-dubai.png',
+  '/backgroung_images/smart-scrap-collection-in-dubai.png',
 ];
 
 interface ImageSliderProps {
