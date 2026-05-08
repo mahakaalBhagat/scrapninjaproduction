@@ -2,21 +2,19 @@
 
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { trackEvent } from '@/utils/analytics';
 
 interface GoogleAnalyticsProps {
   measurementId: string;
 }
 
-export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
+function PageViewTracker({ measurementId }: GoogleAnalyticsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!measurementId) {
-      return;
-    }
+    if (!measurementId) return;
 
     const pagePath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
     trackEvent('page_view', {
@@ -26,6 +24,10 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
     });
   }, [measurementId, pathname, searchParams]);
 
+  return null;
+}
+
+export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   if (!measurementId) {
     return null;
   }
@@ -45,6 +47,9 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
           gtag('config', '${measurementId}', { send_page_view: false });
         `}
       </Script>
+      <Suspense fallback={null}>
+        <PageViewTracker measurementId={measurementId} />
+      </Suspense>
     </>
   );
 }
