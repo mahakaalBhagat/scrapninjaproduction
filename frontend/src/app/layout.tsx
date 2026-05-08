@@ -2,11 +2,14 @@ import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Providers } from './providers';
 import { Chatbot } from '@/components/Chatbot';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import '@/styles/globals.css';
 import 'ol/ol.css';
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-VFJP8XHRVE';
+
 export const metadata: Metadata = {
-  title: 'ScrapNinja - Smart Scrap Collection Platform',
+  title: 'ScrapNinja | Scrap Collection in Dubai, UAE',
   description:
     "Dubai's smartest scrap collection platform connecting households and businesses with verified scrap collectors. Get instant price estimates, real-time tracking, and guaranteed payment.",
   keywords: [
@@ -19,17 +22,21 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'ScrapNinja Team' }],
   robots: 'index, follow',
+  icons: {
+    icon: '/ScrapNinja Logo Without Text.png',
+    apple: '/ScrapNinja Logo Without Background.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_AE',
-    url: 'https://scrapninja.ae',
+    url: 'https://goscrapninja.com',
     siteName: 'ScrapNinja',
     title: 'ScrapNinja - Smart Scrap Collection Platform',
     description:
       "Dubai's smartest scrap collection platform connecting households and businesses with verified scrap collectors.",
     images: [
       {
-        url: 'https://scrapninja.ae/og-image.png',
+        url: 'https://goscrapninja.com/ScrapNinja%20Logo%20Without%20Background.png',
         width: 1200,
         height: 630,
         alt: 'ScrapNinja Platform',
@@ -61,11 +68,12 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#0B7A3E" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/ScrapNinja%20Logo%20Without%20Text.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/ScrapNinja%20Logo%20Without%20Background.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
+        <GoogleAnalytics measurementId={GA_MEASUREMENT_ID} />
         <Providers>
           <div id="root">{children}</div>
           <Chatbot />
