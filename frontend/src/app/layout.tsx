@@ -71,6 +71,17 @@ export default function RootLayout({
         <link rel="icon" href="/ScrapNinja%20Logo%20Without%20Text.png" type="image/png" />
         <link rel="apple-touch-icon" href="/ScrapNinja%20Logo%20Without%20Background.png" />
         <link rel="manifest" href="/manifest.json" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'ScrapNinja',
+              url: 'https://goscrapninja.com',
+            }),
+          }}
+        />
       </head>
       <body>
         <GoogleAnalytics measurementId={GA_MEASUREMENT_ID} />
