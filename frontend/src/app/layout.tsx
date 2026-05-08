@@ -67,6 +67,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <meta name="google-site-verification" content="4GBG47vz6QRDj0IFUKU3hL5kyagsqjUIDhQwrgFU2yY" />
         <meta name="theme-color" content="#0B7A3E" />
         <link rel="icon" href="/ScrapNinja%20Logo%20Without%20Text.png" type="image/png" />
         <link rel="apple-touch-icon" href="/ScrapNinja%20Logo%20Without%20Background.png" />
