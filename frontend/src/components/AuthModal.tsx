@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Loader } from 'lucide-react';
+import { trackClick, trackEvent } from '@/utils/analytics';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -49,7 +50,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           setFormError('Please fill in all fields');
           return;
         }
+        trackEvent('auth_login_submit', { method: 'email' });
         await onLogin(formData.email, formData.password);
+        trackEvent('auth_login_success', { method: 'email' });
       } else {
         if (
           !formData.email ||
@@ -68,7 +71,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           setFormError('Password must be at least 8 characters');
           return;
         }
+        trackEvent('auth_register_submit', { user_type: formData.userType });
         await onRegister(formData);
+        trackEvent('auth_register_success', { user_type: formData.userType });
       }
       onClose();
     } catch (err: any) {
@@ -209,6 +214,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             {mode === 'login' ? "Don't have an account? " : 'Already have an account? '}
             <button
               onClick={() => {
+                const nextMode = mode === 'login' ? 'register' : 'login';
+                trackClick('auth_mode_switch', { from_mode: mode, to_mode: nextMode });
                 setMode(mode === 'login' ? 'register' : 'login');
                 setFormData({
                   email: '',

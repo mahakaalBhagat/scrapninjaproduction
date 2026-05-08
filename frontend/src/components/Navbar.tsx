@@ -9,6 +9,7 @@ import { useScrollPosition } from '@/hooks';
 import { useAuthContext } from '@/hooks';
 import { AuthModal } from './AuthModal';
 import { buttonAnimation } from '@/utils/animations';
+import { trackClick } from '@/utils/analytics';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +20,25 @@ export const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
+    trackClick('navbar_sign_out_click', { location: isOpen ? 'mobile' : 'desktop' });
     logout();
     setIsOpen(false);
+  };
+
+  const handleAuthOpen = (source: 'desktop' | 'mobile') => {
+    trackClick('navbar_sign_in_click', { location: source });
+    setShowAuthModal(true);
+    if (source === 'mobile') {
+      setIsOpen(false);
+    }
+  };
+
+  const handleBookPickupClick = (source: 'desktop' | 'mobile') => {
+    trackClick('navbar_book_pickup_click', { location: source });
+    setShowAuthModal(true);
+    if (source === 'mobile') {
+      setIsOpen(false);
+    }
   };
 
   const navLinks = [
@@ -97,6 +115,7 @@ export const Navbar = () => {
                   Sign Out
                 </motion.button>
                 <motion.button 
+                  onClick={() => handleBookPickupClick('desktop')}
                   className="btn-primary text-sm px-6 py-2.5 flex items-center h-11"
                   {...buttonAnimation}
                 >
@@ -106,14 +125,14 @@ export const Navbar = () => {
             ) : (
               <>
                 <motion.button
-                  onClick={() => setShowAuthModal(true)}
+                  onClick={() => handleAuthOpen('desktop')}
                   className="btn-ghost text-sm px-5 py-2.5 flex items-center h-11"
                   {...buttonAnimation}
                 >
                   Sign In
                 </motion.button>
                 <motion.button
-                  onClick={() => setShowAuthModal(true)}
+                  onClick={() => handleBookPickupClick('desktop')}
                   className="btn-primary text-sm px-6 py-2.5 flex items-center h-11"
                   {...buttonAnimation}
                 >
@@ -162,17 +181,19 @@ export const Navbar = () => {
                 ) : (
                   <>
                     <button
-                      onClick={() => {
-                        setShowAuthModal(true);
-                        setIsOpen(false);
-                      }}
+                      onClick={() => handleAuthOpen('mobile')}
                       className="btn-ghost w-full justify-center"
                     >
                       Sign In
                     </button>
                   </>
                 )}
-                <button className="btn-primary w-full justify-center">Book Pickup</button>
+                <button
+                  onClick={() => handleBookPickupClick('mobile')}
+                  className="btn-primary w-full justify-center"
+                >
+                  Book Pickup
+                </button>
               </div>
             </div>
           </div>

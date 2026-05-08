@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactFormSchema, type ContactFormData } from '@/schemas';
 import { apiClient } from '@/services/api';
+import { trackClick, trackEvent } from '@/utils/analytics';
 import { Mail, Phone, MapPin, Loader, Facebook, Linkedin, Instagram } from 'lucide-react';
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -32,13 +33,19 @@ export const ContactSection = () => {
   const onSubmit = async (data: ContactFormData) => {
     setIsLoading(true);
     setSubmitError(null);
+    trackEvent('contact_form_submit', { has_phone: Boolean(data.phone) });
+    trackEvent('inquiry_form_submit', { has_phone: Boolean(data.phone) });
 
     try {
       await apiClient.submitContactForm(data);
+      trackEvent('contact_form_success');
+      trackEvent('inquiry_form_success');
       setIsSubmitted(true);
       reset();
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
+      trackEvent('contact_form_error');
+      trackEvent('inquiry_form_error');
       setSubmitError(
         error instanceof Error ? error.message : 'Failed to send inquiry. Please try again.'
       );
@@ -186,6 +193,7 @@ export const ContactSection = () => {
                 <motion.button
                   type="submit"
                   disabled={isLoading}
+                  onClick={() => trackClick('inquiry_submit_button_click')}
                   className="btn-primary w-full flex items-center justify-center"
                   {...buttonAnimation}
                 >
@@ -213,6 +221,12 @@ export const ContactSection = () => {
                 <a
                   key={info.label}
                   href={info.href}
+                  onClick={() =>
+                    trackClick('contact_info_click', {
+                      contact_type: info.label.toLowerCase(),
+                      contact_value: info.value,
+                    })
+                  }
                   className="flex items-start gap-4 p-4 rounded-xl border border-neutral-200 bg-white hover:border-primary-300 hover:bg-primary-50 transition-colors group"
                 >
                   <div className="p-3 bg-primary-100 group-hover:bg-primary-200 rounded-lg transition-colors shrink-0">
@@ -247,6 +261,11 @@ export const ContactSection = () => {
                   <motion.a
                     key={label}
                     href={url}
+                    onClick={() =>
+                      trackClick('social_link_click', {
+                        platform: label.toLowerCase(),
+                      })
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     title={label}
