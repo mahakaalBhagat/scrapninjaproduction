@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Providers } from './providers';
 import { Chatbot } from '@/components/Chatbot';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
@@ -85,6 +86,10 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Script
+          src="https://t.contentsquare.net/uxa/3ce8cdf22d94d.js"
+          strategy="afterInteractive"
+        />
         <GoogleAnalytics measurementId={GA_MEASUREMENT_ID} />
         <Providers>
           <div id="root">{children}</div>

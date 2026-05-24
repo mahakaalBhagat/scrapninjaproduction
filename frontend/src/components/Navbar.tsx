@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { useScrollPosition } from '@/hooks';
 import { useAuthContext } from '@/hooks';
@@ -14,6 +15,7 @@ import { trackClick } from '@/utils/analytics';
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const router = useRouter();
   const scrollPosition = useScrollPosition();
   const { isAuthenticated, user, login, register, logout, isLoading, error } = useAuthContext();
 
@@ -35,7 +37,7 @@ export const Navbar = () => {
 
   const handleBookPickupClick = (source: 'desktop' | 'mobile') => {
     trackClick('navbar_book_pickup_click', { location: source });
-    setShowAuthModal(true);
+    router.push('/book-pickup');
     if (source === 'mobile') {
       setIsOpen(false);
     }

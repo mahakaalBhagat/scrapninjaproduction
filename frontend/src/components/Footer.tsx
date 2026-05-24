@@ -33,7 +33,7 @@ export const Footer = () => {
       title: 'Company',
       links: [
         { label: 'About', href: '#team' },
-        { label: 'Blog', href: '#' },
+        { label: 'Blog', href: '/blogs' },
         { label: 'Careers', href: '#' },
         { label: 'Press', href: '#' },
       ],
@@ -91,12 +91,18 @@ export const Footer = () => {
                     key={link.label}
                     whileHover={{ x: 4 }}
                   >
-                    <a
-                      href={link.href}
-                      className="text-white/70 hover:text-white transition-colors text-sm"
-                    >
-                      {link.label}
-                    </a>
+                    {link.href.startsWith('/') ? (
+                      <Link href={link.href} className="text-white/70 hover:text-white transition-colors text-sm">
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-white/70 hover:text-white transition-colors text-sm"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </motion.li>
                 ))}
               </ul>

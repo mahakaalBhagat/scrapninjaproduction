@@ -183,9 +183,9 @@ export const LiveMetalIndexSection = () => {
       setError(null);
 
       // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Generate mock data
+      // Generate indicative market prices
       const prices = generateMockPrices();
       setScrapItems(prices);
       setLastUpdated(new Date().toLocaleTimeString());
@@ -281,9 +281,10 @@ export const LiveMetalIndexSection = () => {
         >
           <h2 className="heading-1 mb-4">Dubai Scrap Materials Prices</h2>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-            Live scrap material prices in Dubai. Metals, plastics, paper & more in USD and AED per kg. 
+            Indicative scrap material prices for the Dubai market. Metals, plastics, paper & more in USD and AED per kg.
             Last updated: <span className="font-semibold">{lastUpdated}</span>
           </p>
+          <p className="text-xs text-neutral-400 mt-1">* Prices are indicative and may vary based on quantity, condition, and current market rates.</p>
           <motion.button
             onClick={fetchScrapPrices}
             disabled={isRefreshing}

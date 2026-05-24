@@ -3,22 +3,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { AuthModal } from './AuthModal';
-import { useAuthContext } from '@/hooks';
 import { animations, viewportConfig, buttonAnimation, staggerChild } from '@/utils/animations';
 import { ImageSlider } from './ImageSlider';
 
 export const HeroSection = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { login, register, isLoading, error } = useAuthContext();
-
-  const handleBookPickup = () => {
-    setShowAuthModal(true);
-  };
-
-  const handleBecomeCollector = () => {
-    setShowAuthModal(true);
-  };
 
   return (
     <>
@@ -46,9 +35,6 @@ export const HeroSection = () => {
             >
               <span className="px-4 py-2 bg-white/18 backdrop-blur-sm rounded-full text-sm font-semibold text-white border border-white/30">
                 🚀 Dubai's Smart Solution
-              </span>
-              <span className="px-4 py-2 bg-amber-100/15 backdrop-blur-sm rounded-full text-sm font-semibold text-amber-100 border border-amber-200/40">
-                🎉 Launching Soon
               </span>
             </motion.div>
 
@@ -119,14 +105,6 @@ export const HeroSection = () => {
         </div>
       </section>
 
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onLogin={login}
-        onRegister={register}
-        isLoading={isLoading}
-        error={error}
-      />
     </>
   );
 };

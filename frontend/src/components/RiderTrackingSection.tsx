@@ -72,9 +72,12 @@ export const RiderTrackingSection = () => {
           viewport={viewportConfig}
           variants={animations.fadeUp}
         >
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 bg-amber-100 text-amber-700 rounded-full text-sm font-semibold border border-amber-200">
+            <span>🎬</span> Product Demo Preview
+          </div>
           <h2 className="heading-1 mb-4">Track Your Rider</h2>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-            Real-time rider tracking with live location updates. Know exactly when your scrap collection will arrive.
+            See how real-time rider tracking will work on our platform. Live tracking activates when your pickup is confirmed.
           </p>
         </motion.div>
 
