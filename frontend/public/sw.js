@@ -64,6 +64,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Never runtime-cache Next.js build artifacts or media files.
+  const isNextAsset = url.pathname.startsWith('/_next/');
+  const isMedia = /\.(png|jpg|jpeg|webp|gif|svg|mp4|webm|avif)$/i.test(url.pathname);
+  if (isNextAsset || isMedia) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
   // Network first, fallback to cache
   event.respondWith(
     fetch(request)

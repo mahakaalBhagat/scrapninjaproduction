@@ -100,9 +100,13 @@ export default function RootLayout({
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js')
+                  navigator.serviceWorker.register('/sw.js?v=20260526-android-fix', { updateViaCache: 'none' })
                     .then(reg => console.log('Service Worker registered'))
                     .catch(err => console.log('Service Worker registration failed'));
+
+                  navigator.serviceWorker.getRegistrations().then((regs) => {
+                    regs.forEach((reg) => reg.update());
+                  });
                 });
               }
             `,
