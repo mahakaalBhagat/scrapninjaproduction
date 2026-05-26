@@ -1,6 +1,6 @@
 /* Service Worker for ScrapNinja PWA */
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2-team-images-20260526';
 const CACHE_NAME = `scrapninja-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -42,9 +42,25 @@ self.addEventListener('activate', (event) => {
 // Fetch event with network-first strategy
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  const url = new URL(request.url);
 
   // Skip non-GET requests
   if (request.method !== 'GET') {
+    return;
+  }
+
+  // Only handle same-origin requests with this service worker cache.
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Prefer network for images so updated team photos show immediately on mobile.
+  if (request.destination === 'image') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => response)
+        .catch(() => caches.match(request))
+    );
     return;
   }
 

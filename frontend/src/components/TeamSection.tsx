@@ -6,26 +6,28 @@ import Image from 'next/image';
 import { animations, viewportConfig, staggerChild, cardHover } from '@/utils/animations';
 
 export const TeamSection = () => {
+  const TEAM_IMAGE_VERSION = '20260526';
+
   const teamMembers = [
     {
       id: 1,
       name: 'Ketan Shandilaya',
       role: 'Founder & CEO',
-      image: '/ketan image.jpeg',
+      image: `/ketan image.jpeg?v=${TEAM_IMAGE_VERSION}`,
       bio: 'Visionary entrepreneur driving Dubai\'s waste-tech revolution with a passion for sustainable cities and circular economy principles.',
     },
     {
       id: 2,
       name: 'Raj Shekhar',
       role: 'Chief of Operations (COO)',
-      image: '/raj bhai.jpeg',
+      image: `/raj bhai.jpeg?v=${TEAM_IMAGE_VERSION}`,
       bio: 'Head of sustainability focused on recycle solutions and making green practices accessible for every business and home in the region.',
     },
     {
       id: 3,
       name: 'Saksham Shukla',
       role: 'Tech Wizard',
-      image: '/saksham.jpeg',
+      image: `/saksham.jpeg?v=${TEAM_IMAGE_VERSION}`,
       bio: 'Full-stack tech architect building the digital backbone that makes ScrapNinja fast, reliable, and infinitely scalable.',
     },
   ];
