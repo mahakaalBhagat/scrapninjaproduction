@@ -5,9 +5,10 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { useScrollPosition } from '@/hooks';
 import { useAuthContext } from '@/hooks';
+import { useCart } from '@/context/CartContext';
 import { AuthModal } from './AuthModal';
 import { buttonAnimation } from '@/utils/animations';
 import { trackClick } from '@/utils/analytics';
@@ -18,6 +19,7 @@ export const Navbar = () => {
   const router = useRouter();
   const scrollPosition = useScrollPosition();
   const { isAuthenticated, user, login, register, logout, isLoading, error } = useAuthContext();
+  const { totalQuantity } = useCart();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -38,6 +40,22 @@ export const Navbar = () => {
   const handleBookPickupClick = (source: 'desktop' | 'mobile') => {
     trackClick('navbar_book_pickup_click', { location: source });
     router.push('/book-pickup');
+    if (source === 'mobile') {
+      setIsOpen(false);
+    }
+  };
+
+  const handleScrapItemsClick = (source: 'desktop' | 'mobile') => {
+    trackClick('navbar_scrap_items_click', { location: source });
+    router.push('/scrap-items');
+    if (source === 'mobile') {
+      setIsOpen(false);
+    }
+  };
+
+  const handleCartClick = (source: 'desktop' | 'mobile') => {
+    trackClick('navbar_cart_click', { location: source });
+    router.push('/cart');
     if (source === 'mobile') {
       setIsOpen(false);
     }
@@ -109,12 +127,35 @@ export const Navbar = () => {
                 >
                   Hi, {user.firstName}!
                 </motion.span>
+                {totalQuantity > 0 && (
+                  <motion.button
+                    onClick={() => handleCartClick('desktop')}
+                    className="relative p-2 text-neutral-600 hover:text-primary-600 transition-colors"
+                    {...buttonAnimation}
+                  >
+                    <ShoppingCart size={20} />
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-2 -right-2 bg-primary-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold"
+                    >
+                      {totalQuantity}
+                    </motion.span>
+                  </motion.button>
+                )}
                 <motion.button
                   onClick={handleLogout}
                   className="btn-ghost text-sm px-5 py-2.5 flex items-center h-11"
                   {...buttonAnimation}
                 >
                   Sign Out
+                </motion.button>
+                <motion.button 
+                  onClick={() => handleScrapItemsClick('desktop')}
+                  className="btn-secondary text-sm px-5 py-2.5 flex items-center h-11 gap-1"
+                  {...buttonAnimation}
+                >
+                  📦 Scrap Items
                 </motion.button>
                 <motion.button 
                   onClick={() => handleBookPickupClick('desktop')}
@@ -126,12 +167,35 @@ export const Navbar = () => {
               </>
             ) : (
               <>
+                {totalQuantity > 0 && (
+                  <motion.button
+                    onClick={() => handleCartClick('desktop')}
+                    className="relative p-2 text-neutral-600 hover:text-primary-600 transition-colors"
+                    {...buttonAnimation}
+                  >
+                    <ShoppingCart size={20} />
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-2 -right-2 bg-primary-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold"
+                    >
+                      {totalQuantity}
+                    </motion.span>
+                  </motion.button>
+                )}
                 <motion.button
                   onClick={() => handleAuthOpen('desktop')}
                   className="btn-ghost text-sm px-5 py-2.5 flex items-center h-11"
                   {...buttonAnimation}
                 >
                   Sign In
+                </motion.button>
+                <motion.button 
+                  onClick={() => handleScrapItemsClick('desktop')}
+                  className="btn-secondary text-sm px-5 py-2.5 flex items-center h-11 gap-1"
+                  {...buttonAnimation}
+                >
+                  📦 Scrap Items
                 </motion.button>
                 <motion.button
                   onClick={() => handleBookPickupClick('desktop')}
@@ -173,6 +237,15 @@ export const Navbar = () => {
                 {isAuthenticated && user ? (
                   <>
                     <span className="text-sm text-neutral-600 px-3">Hi, {user.firstName}!</span>
+                    {totalQuantity > 0 && (
+                      <button
+                        onClick={() => handleCartClick('mobile')}
+                        className="btn-secondary w-full justify-center gap-2 relative"
+                      >
+                        <ShoppingCart size={18} />
+                        Cart ({totalQuantity})
+                      </button>
+                    )}
                     <button
                       onClick={handleLogout}
                       className="btn-ghost w-full justify-center"
@@ -182,6 +255,15 @@ export const Navbar = () => {
                   </>
                 ) : (
                   <>
+                    {totalQuantity > 0 && (
+                      <button
+                        onClick={() => handleCartClick('mobile')}
+                        className="btn-secondary w-full justify-center gap-2 relative"
+                      >
+                        <ShoppingCart size={18} />
+                        Cart ({totalQuantity})
+                      </button>
+                    )}
                     <button
                       onClick={() => handleAuthOpen('mobile')}
                       className="btn-ghost w-full justify-center"
@@ -190,6 +272,12 @@ export const Navbar = () => {
                     </button>
                   </>
                 )}
+                <button
+                  onClick={() => handleScrapItemsClick('mobile')}
+                  className="btn-secondary w-full justify-center gap-2"
+                >
+                  📦 Scrap Items
+                </button>
                 <button
                   onClick={() => handleBookPickupClick('mobile')}
                   className="btn-primary w-full justify-center"

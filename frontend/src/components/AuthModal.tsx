@@ -86,7 +86,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto relative">
         <button
           onClick={onClose}
-          className="sticky top-0 absolute top-4 right-4 p-2 hover:bg-neutral-100 rounded-lg transition-colors z-10"
+          className=" absolute top-4 right-4 p-2 hover:bg-neutral-100 rounded-lg transition-colors z-10"
         >
           <X size={20} />
         </button>

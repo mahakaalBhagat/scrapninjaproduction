@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   Zap,
@@ -16,6 +17,11 @@ import { animations, viewportConfig, staggerChild, buttonAnimation, cardHover } 
 export const SolutionSection = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { login, register, isLoading, error } = useAuthContext();
+  const router = useRouter();
+
+  const handleVendorOnboarding = () => {
+    router.push('/vendor-onboarding');
+  };
   
   const solutions = [
     {
@@ -47,11 +53,11 @@ export const SolutionSection = () => {
   ];
 
   return (
-    <section id="solution" className="py-16 md:py-24 gradient-hero">
+    <section id="solution" className="py-16 md:py-24 lg:py-32 gradient-hero">
       <div className="container-responsive">
         {/* Section Header */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
@@ -66,7 +72,7 @@ export const SolutionSection = () => {
 
         {/* Solutions Grid */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
@@ -150,7 +156,7 @@ export const SolutionSection = () => {
           </div>
         </motion.div>
 
-        {/* CTA Button */}
+        {/* CTA Buttons */}
         <motion.div 
           className="mt-16 text-center"
           initial="hidden"
@@ -158,13 +164,22 @@ export const SolutionSection = () => {
           viewport={viewportConfig}
           variants={animations.fadeUp}
         >
-          <motion.button
-            onClick={() => setShowAuthModal(true)}
-            className="btn-primary px-8 py-3 text-lg"
-            {...buttonAnimation}
-          >
-            Launching soon
-          </motion.button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
+            <motion.button
+              onClick={() => setShowAuthModal(true)}
+              className="btn-primary px-8 py-3 text-lg hover:opacity-90 transition-opacity"
+              {...buttonAnimation}
+            >
+              Get Started
+            </motion.button>
+            <motion.button
+              onClick={handleVendorOnboarding}
+              className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-semibold text-neutral-900 bg-amber-300 hover:bg-amber-400 shadow-lg transition-colors text-lg"
+              {...buttonAnimation}
+            >
+              🚛 Become a Vendor
+            </motion.button>
+          </div>
           <p className="text-neutral-600 text-sm mt-4">
             Join thousands of satisfied customers transforming their scrap collection
           </p>

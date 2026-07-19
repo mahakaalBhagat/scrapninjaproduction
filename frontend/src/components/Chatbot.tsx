@@ -111,6 +111,7 @@ export const Chatbot = () => {
               { label: '💰 How can I sell scrap?', action: 'how_to_sell' },
               { label: '📊 Scrap disposal report?', action: 'disposal_report' },
               { label: '🚛 Become a vendor', action: 'vendor_flow' },
+              { label: '📋 Vendor onboarding', action: 'vendor_onboarding' },
             ],
           },
         ]);
@@ -254,6 +255,7 @@ export const Chatbot = () => {
               { label: '💰 How can I sell scrap?', action: 'how_to_sell' },
               { label: '📊 Scrap disposal report?', action: 'disposal_report' },
               { label: '🚛 Become a vendor', action: 'vendor_flow' },
+              { label: '📋 Vendor onboarding', action: 'vendor_onboarding' },
             ],
           },
         ]);
@@ -298,6 +300,21 @@ export const Chatbot = () => {
       ...prev,
       { id: uid(), from: 'user', text: label },
     ]);
+
+    if (action === 'vendor_onboarding') {
+      window.open('/blogs', '_blank', 'noopener,noreferrer');
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: uid(),
+            from: 'bot',
+            text: 'The vendor onboarding checklist is now open in a new tab. You can review the requirements there.',
+          },
+        ]);
+      }, 400);
+      return;
+    }
 
     setTimeout(() => pushBotMessages(action as FlowStep), 400);
   };

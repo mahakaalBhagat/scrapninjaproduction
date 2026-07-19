@@ -33,7 +33,7 @@ export const TeamSection = () => {
   ];
 
   return (
-    <section id="team" className="py-16 md:py-24 bg-white">
+    <section id="team" className="py-16 md:py-24 lg:py-32 bg-white">
       <div className="container-responsive">
         <motion.div 
           className="max-w-3xl mx-auto text-center"
@@ -42,8 +42,8 @@ export const TeamSection = () => {
           viewport={viewportConfig}
           variants={animations.fadeUp}
         >
-          <h2 className="heading-1 mb-6">Meet The Team</h2>
-          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
+          <h2 className="heading-1 mb-6 md:mb-8">Meet The Team</h2>
+          <p className="text-lg text-neutral-600 leading-relaxed mb-10 md:mb-12">
             We're a passionate team committed to building sustainable solutions for
             waste management. Our mission is to transform how Dubai handles scrap
             collection through technology and innovation.

@@ -239,7 +239,7 @@ export const LiveMetalIndexSection = () => {
 
   if (isLoading) {
     return (
-      <section id="metal-index" className="py-16 md:py-24 bg-neutral-50">
+      <section id="metal-index" className="py-16 md:py-24 lg:py-32 bg-neutral-50">
         <div className="container-responsive">
           <div className="text-center">
             <h2 className="heading-1 mb-4">Dubai Scrap Materials Prices</h2>
@@ -252,7 +252,7 @@ export const LiveMetalIndexSection = () => {
 
   if (error) {
     return (
-      <section id="metal-index" className="py-16 md:py-24 bg-neutral-50">
+      <section id="metal-index" className="py-16 md:py-24 lg:py-32 bg-neutral-50">
         <div className="container-responsive">
           <div className="text-center mb-16">
             <h2 className="heading-1 mb-4">Dubai Scrap Materials Prices</h2>
@@ -269,11 +269,11 @@ export const LiveMetalIndexSection = () => {
   }
 
   return (
-    <section id="metal-index" className="py-16 md:py-24 bg-neutral-50">
+    <section id="metal-index" className="py-16 md:py-24 lg:py-32 bg-neutral-50">
       <div className="container-responsive">
         {/* Section Header */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}

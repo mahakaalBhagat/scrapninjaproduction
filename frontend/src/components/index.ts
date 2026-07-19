@@ -1,14 +1,16 @@
 export { Navbar } from './Navbar';
+export { GlobalNavigationHeader } from './common/GlobalNavigationHeader';
 export { ImageSlider } from './ImageSlider';
 export { HeroSection } from './HeroSection';
+export { PathChoiceSection } from './PathChoiceSection';
 export { StatsSection } from './StatsSection';
 export { ProblemSection } from './ProblemSection';
 export { SolutionSection } from './SolutionSection';
 export { LiveMetalIndexSection } from './LiveMetalIndexSection';
-export { RiderTrackingSection } from './RiderTrackingSection';
 export { TeamSection } from './TeamSection';
 export { ContactSection } from './ContactSection';
 export { Footer } from './Footer';
 export { Container } from './Container';
 export { AuthModal } from './AuthModal';
 export { Chatbot } from './Chatbot';
+export { VendorLoginSection } from './VendorLoginSection';

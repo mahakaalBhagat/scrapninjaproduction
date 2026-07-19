@@ -1,31 +1,20 @@
-import React from 'react';
-import Link from 'next/link';
+'use client';
 
-const BLOGS = [
-  {
-    title: 'How ScrapNinja Makes Scrap Collection Faster in Dubai',
-    excerpt:
-      'A quick look at how our pickup flow, verified collectors, and live tracking simplify scrap collection for households and businesses.',
-    category: 'Product',
-    readTime: '4 min read',
-  },
-  {
-    title: 'Why Proper Scrap Segregation Improves Recycling Value',
-    excerpt:
-      'Separate metals, plastics, and paper the right way to improve pricing and reduce waste processing time.',
-    category: 'Guide',
-    readTime: '5 min read',
-  },
-  {
-    title: 'Dubai Scrap Market Trends: What Affects Pricing?',
-    excerpt:
-      'Understand the major market factors that influence scrap pricing across different categories and seasons.',
-    category: 'Insights',
-    readTime: '6 min read',
-  },
-];
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { BLOGS } from './data';
+
+const INITIAL_VISIBLE_COUNT = 3;
+const LOAD_MORE_COUNT = 2;
 
 export default function BlogsPage() {
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+  const visibleBlogs = BLOGS.slice(0, visibleCount);
+  const hasMore = visibleCount < BLOGS.length;
+
+  const handleLoadMore = () => {
+    setVisibleCount((current) => Math.min(current + LOAD_MORE_COUNT, BLOGS.length));
+  };
   return (
     <main className="min-h-screen bg-neutral-50 py-8 md:py-12">
       <div className="container-responsive">
@@ -45,8 +34,8 @@ export default function BlogsPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {BLOGS.map((blog) => (
-            <article key={blog.title} className="card-elevated flex flex-col">
+          {visibleBlogs.map((blog) => (
+            <article key={blog.slug} className="card-elevated flex flex-col">
               <div className="mb-4 inline-flex w-fit rounded-full bg-primary-100 px-3 py-1 text-xs font-semibold text-primary-700">
                 {blog.category}
               </div>
@@ -54,11 +43,30 @@ export default function BlogsPage() {
               <p className="mt-3 text-sm leading-6 text-neutral-600 flex-1">{blog.excerpt}</p>
               <div className="mt-6 flex items-center justify-between border-t border-neutral-200 pt-4 text-sm text-neutral-500">
                 <span>{blog.readTime}</span>
-                <span className="font-semibold text-primary-600">Read more</span>
+                <a
+                  href={blog.pdfPath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-primary-600"
+                >
+                  Read more
+                </a>
               </div>
             </article>
           ))}
         </div>
+
+        {hasMore && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              className="btn-primary btn-md"
+            >
+              Load more posts
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );

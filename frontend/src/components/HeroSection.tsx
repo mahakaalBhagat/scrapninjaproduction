@@ -1,13 +1,30 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { animations, viewportConfig, buttonAnimation, staggerChild } from '@/utils/animations';
 import { ImageSlider } from './ImageSlider';
 
 export const HeroSection = () => {
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const router = useRouter();
+
+  const handleBookPickup = () => {
+    router.push('/book-pickup');
+  };
+
+  const handleBecomePartner = () => {
+    router.push('/rider-onboarding');
+  };
+
+  const handleVendorOnboarding = () => {
+    router.push('/vendor-onboarding');
+  };
+
+  const handleViewScrapItems = () => {
+    router.push('/scrap-items');
+  };
 
   return (
     <>
@@ -20,7 +37,7 @@ export const HeroSection = () => {
             {/* Auto image slider as background */}
             <ImageSlider fill />
             <div className="absolute inset-0 home-hero-overlay" />
-            <div className="relative z-10 px-6 py-14 md:px-12 md:py-20 lg:px-16 lg:py-24">
+            <div className="relative z-10 px-6 py-16 md:px-12 md:py-24 lg:px-16 lg:py-32">
           <motion.div 
             className="max-w-3xl"
             initial="hidden"
@@ -59,23 +76,24 @@ export const HeroSection = () => {
 
             {/* CTA Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 flex-wrap"
               variants={staggerChild}
             >
               <motion.button 
-                disabled
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-neutral-900 bg-white shadow-lg cursor-not-allowed opacity-90"
+                onClick={handleViewScrapItems}
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-lg hover:shadow-emerald-500/50 transition-all"
                 {...buttonAnimation}
               >
-                Launching Soon
-                <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                🏪 Become a Vendor
+                <ArrowRight className="ml-2 w-4 h-4" />
               </motion.button>
               <motion.button 
-                disabled
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white bg-white/15 border border-white/35 backdrop-blur-sm cursor-not-allowed opacity-90"
+                onClick={handleBookPickup}
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white bg-white/15 border border-white/35 backdrop-blur-sm hover:bg-white hover:text-neutral-900 transition-colors"
                 {...buttonAnimation}
               >
-                Launching Soon
+                🚛 Book Pickup
+                <ArrowRight className="ml-2 w-4 h-4" />
               </motion.button>
             </motion.div>
 

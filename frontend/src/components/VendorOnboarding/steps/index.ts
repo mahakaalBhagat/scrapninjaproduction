@@ -1,0 +1,11 @@
+// Re-export all step components for cleaner imports
+export { default as Step1BusinessVerification } from './Step1BusinessVerification';
+export { default as Step2ScrapTrading } from './Step2ScrapTrading';
+export { default as Step3CompanyKYC } from './Step3CompanyKYC';
+export { default as Step4UBODeclaration } from './Step4UBODeclaration';
+export { default as Step5TaxCompliance } from './Step5TaxCompliance';
+export { default as Step6BankingVerification } from './Step6BankingVerification';
+export { default as Step7ScrapSourceDeclaration } from './Step7ScrapSourceDeclaration';
+export { default as Step8EnvironmentalCompliance } from './Step8EnvironmentalCompliance';
+export { default as Step9OperationalVerification } from './Step9OperationalVerification';
+export { default as Step10VendorAgreement } from './Step10VendorAgreement';

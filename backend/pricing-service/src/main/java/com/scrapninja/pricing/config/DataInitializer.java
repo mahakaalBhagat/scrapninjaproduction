@@ -22,23 +22,24 @@ public class DataInitializer implements CommandLineRunner {
         if (scrapRateRepository.count() == 0) {
             log.info("Seeding default scrap rates...");
             List<ScrapRate> rates = List.of(
-                ScrapRate.builder().scrapType("METAL").pricePerKg(new BigDecimal("15.00"))
+                // Prices in USD (converted from previous INR @ 1 USD = 80 INR)
+                ScrapRate.builder().scrapType("METAL").pricePerKg(new BigDecimal("0.19"))
                         .description("Iron, Steel, Aluminum").build(),
-                ScrapRate.builder().scrapType("PAPER").pricePerKg(new BigDecimal("8.00"))
+                ScrapRate.builder().scrapType("PAPER").pricePerKg(new BigDecimal("0.10"))
                         .description("Newspapers, Cardboard, Books").build(),
-                ScrapRate.builder().scrapType("PLASTIC").pricePerKg(new BigDecimal("10.00"))
+                ScrapRate.builder().scrapType("PLASTIC").pricePerKg(new BigDecimal("0.12"))
                         .description("PET Bottles, HDPE Containers").build(),
-                ScrapRate.builder().scrapType("ELECTRONICS").pricePerKg(new BigDecimal("25.00"))
+                ScrapRate.builder().scrapType("ELECTRONICS").pricePerKg(new BigDecimal("0.31"))
                         .description("PCBs, Cables, Electronic Devices").build(),
-                ScrapRate.builder().scrapType("GLASS").pricePerKg(new BigDecimal("5.00"))
+                ScrapRate.builder().scrapType("GLASS").pricePerKg(new BigDecimal("0.06"))
                         .description("Bottles, Windows, Mirrors").build(),
-                ScrapRate.builder().scrapType("RUBBER").pricePerKg(new BigDecimal("12.00"))
+                ScrapRate.builder().scrapType("RUBBER").pricePerKg(new BigDecimal("0.15"))
                         .description("Tires, Tubes, Rubber Parts").build(),
-                ScrapRate.builder().scrapType("COPPER").pricePerKg(new BigDecimal("400.00"))
+                ScrapRate.builder().scrapType("COPPER").pricePerKg(new BigDecimal("5.00"))
                         .description("Copper Wire, Pipes, Fittings").build(),
-                ScrapRate.builder().scrapType("BRASS").pricePerKg(new BigDecimal("250.00"))
+                ScrapRate.builder().scrapType("BRASS").pricePerKg(new BigDecimal("3.13"))
                         .description("Brass Fittings, Utensils").build(),
-                ScrapRate.builder().scrapType("OTHER").pricePerKg(new BigDecimal("5.00"))
+                ScrapRate.builder().scrapType("OTHER").pricePerKg(new BigDecimal("0.06"))
                         .description("Mixed or unspecified scrap").build()
             );
             scrapRateRepository.saveAll(rates);

@@ -11,6 +11,9 @@ export interface User {
   firstName: string;
   lastName: string;
   userType: 'HOUSEHOLD' | 'BUSINESS' | 'COLLECTOR';
+  paymentStatus?: 'APPROVED' | 'PENDING' | 'REJECTED';
+  accountStatus?: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
+  isB2BCustomer?: boolean;
 }
 
 export interface AuthContextType {
@@ -18,6 +21,7 @@ export interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  hasMarketplaceAccess: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: any) => Promise<void>;
   logout: () => void;
@@ -64,19 +68,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         rememberMe: true,
       });
 
-      const { token, userId, email: userEmail, firstName, lastName, userType } = response.data;
+      const { token, userId, email: userEmail, firstName, lastName, userType, paymentStatus = 'PENDING', accountStatus = 'ACTIVE' } = response.data;
 
-      setToken(token);
-      setUser({
+      const newUser: User = {
         id: userId,
         email: userEmail,
         firstName: firstName || '',
         lastName: lastName || '',
         userType: userType || 'HOUSEHOLD',
-      });
+        paymentStatus: paymentStatus as 'APPROVED' | 'PENDING' | 'REJECTED',
+        accountStatus: accountStatus as 'ACTIVE' | 'INACTIVE' | 'SUSPENDED',
+        isB2BCustomer: userType === 'BUSINESS',
+      };
+
+      setUser(newUser);
+      setToken(token);
 
       localStorage.setItem('authToken', token);
-      localStorage.setItem('user', JSON.stringify({ id: userId, email: userEmail, firstName, lastName, userType }));
+      localStorage.setItem('user', JSON.stringify(newUser));
     } catch (err: any) {
       const message = err.response?.data?.error || 'Login failed. Please check your credentials.';
       setError(message);
@@ -99,19 +108,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         userType: data.userType || 'HOUSEHOLD',
       });
 
-      const { token, userId, email: userEmail, firstName, lastName, userType } = response.data;
+      const { token, userId, email: userEmail, firstName, lastName, userType, paymentStatus = 'PENDING', accountStatus = 'ACTIVE' } = response.data;
 
-      setToken(token);
-      setUser({
+      const newUser: User = {
         id: userId,
         email: userEmail,
         firstName: firstName || '',
         lastName: lastName || '',
         userType: userType || 'HOUSEHOLD',
-      });
+        paymentStatus: paymentStatus as 'APPROVED' | 'PENDING' | 'REJECTED',
+        accountStatus: accountStatus as 'ACTIVE' | 'INACTIVE' | 'SUSPENDED',
+        isB2BCustomer: userType === 'BUSINESS',
+      };
+
+      setUser(newUser);
+      setToken(token);
 
       localStorage.setItem('authToken', token);
-      localStorage.setItem('user', JSON.stringify({ id: userId, email: userEmail, firstName, lastName, userType }));
+      localStorage.setItem('user', JSON.stringify(newUser));
     } catch (err: any) {
       const message = err.response?.data?.error || 'Registration failed. Please try again.';
       setError(message);
@@ -129,11 +143,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   }, []);
 
+  const hasMarketplaceAccess = user 
+    ? user.paymentStatus === 'APPROVED' && user.accountStatus === 'ACTIVE'
+    : false;
+
   const value: AuthContextType = {
     user,
     token,
     isLoading,
     isAuthenticated: !!token && !!user,
+    hasMarketplaceAccess,
     login,
     register,
     logout,

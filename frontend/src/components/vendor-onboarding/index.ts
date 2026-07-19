@@ -1,0 +1,12 @@
+// Export all vendor onboarding components
+export { BusinessVerification } from './BusinessVerification';
+export { ScrapTradingAuthorization } from './ScrapTradingAuthorization';
+export { KYCSection } from './KYCSection';
+export { UBOSection } from './UBOSection';
+export { TaxCompliance } from './TaxCompliance';
+export { BankingVerification } from './BankingVerification';
+export { ScrapSourceDeclaration } from './ScrapSourceDeclaration';
+export { EnvironmentalCompliance } from './EnvironmentalCompliance';
+export { OperationalVerification } from './OperationalVerification';
+export { VendorAgreement } from './VendorAgreement';
+export { ProgressIndicator } from './ProgressIndicator';

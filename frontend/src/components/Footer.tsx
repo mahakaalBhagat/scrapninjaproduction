@@ -24,27 +24,14 @@ export const Footer = () => {
       title: 'Product',
       links: [
         { label: 'Features', href: '#solution' },
-        { label: 'Pricing', href: '#' },
-        { label: 'Security', href: '#' },
-        { label: 'Testimonials', href: '#' },
+        { label: 'Blog', href: '/blogs' },
       ],
     },
     {
       title: 'Company',
       links: [
         { label: 'About', href: '#team' },
-        { label: 'Blog', href: '/blogs' },
-        { label: 'Careers', href: '#' },
-        { label: 'Press', href: '#' },
-      ],
-    },
-    {
-      title: 'Legal',
-      links: [
-        { label: 'Privacy Policy', href: '#' },
-        { label: 'Terms of Service', href: '#' },
-        { label: 'Cookie Policy', href: '#' },
-        { label: 'Compliance', href: '#' },
+        { label: 'Contact', href: '#contact' },
       ],
     },
   ];
@@ -54,7 +41,7 @@ export const Footer = () => {
       {/* Footer Content */}
       <div className="container-responsive py-16">
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12"
+          className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12"
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}

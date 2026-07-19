@@ -9,11 +9,13 @@ import {
   ProblemSection,
   SolutionSection,
   LiveMetalIndexSection,
-  RiderTrackingSection,
   TeamSection,
   ContactSection,
   Footer,
+  PathChoiceSection,
+  VendorLoginSection,
 } from '@/components';
+import { RiderTrackingSection } from '@/components/RiderTrackingSection';
 import IntroVideo from '@/components/IntroVideo';
 
 export default function HomeClient() {
@@ -25,11 +27,13 @@ export default function HomeClient() {
       <main className="min-h-screen bg-white">
         <Navbar />
         <HeroSection />
+        <PathChoiceSection />
+        <VendorLoginSection />
         <StatsSection />
         <ProblemSection />
         <SolutionSection />
-        <LiveMetalIndexSection />
         <RiderTrackingSection />
+        <LiveMetalIndexSection />
         <TeamSection />
         <ContactSection />
         <Footer />

@@ -59,7 +59,7 @@ class ApiClient {
     }
   }
 
-  // Auth endpoints
+  // Auth endpoints (UNUSED - auth is handled in useAuth.tsx via direct axios calls)
   async login(email: string, password: string) {
     return this.client.post('/auth/login', { email, password });
   }
@@ -76,7 +76,7 @@ class ApiClient {
     return this.client.post('/auth/refresh');
   }
 
-  // User endpoints
+  // User endpoints (UNUSED)
   async getProfile() {
     return this.client.get('/users/profile');
   }
@@ -85,7 +85,7 @@ class ApiClient {
     return this.client.put('/users/profile', data);
   }
 
-  // Pickup endpoints
+  // Pickup endpoints (UNUSED)
   async createPickupRequest(data: any) {
     return this.client.post('/pickups', data);
   }
@@ -102,7 +102,10 @@ class ApiClient {
     return this.client.put(`/pickups/${id}`, data);
   }
 
-  // Pricing endpoints
+  // ====== DEPRECATED: Below endpoints are not actively used in current codebase ======
+  // These are preserved for future use and documentation purposes
+
+  // Pricing endpoints (UNUSED)
   async getPriceEstimate(scrapType: string, weight: number) {
     return this.client.get('/pricing/estimate', {
       params: { scrapType, weight },
@@ -113,12 +116,12 @@ class ApiClient {
     return this.client.get('/pricing/rules');
   }
 
-  // Tracking endpoints
+  // Tracking endpoints (UNUSED)
   async trackPickup(pickupId: string) {
     return this.client.get(`/tracking/${pickupId}`);
   }
 
-  // Payment endpoints
+  // Payment endpoints (UNUSED)
   async processPayment(data: any) {
     return this.client.post('/payments', data);
   }
@@ -127,7 +130,7 @@ class ApiClient {
     return this.client.get('/payments/history');
   }
 
-  // Reports endpoints
+  // Reports endpoints (UNUSED)
   async generateReport(pickupId: string) {
     return this.client.post(`/reports/${pickupId}`);
   }
@@ -136,23 +139,42 @@ class ApiClient {
     return this.client.get('/reports');
   }
 
-  // Lead capture endpoints
+  // ====== ACTIVE: These endpoints are currently used ======
+
+  // Lead capture endpoints (ACTIVE - used in Chatbot.tsx)
   async captureLead(data: { name: string; phone: string; source: string; flow?: string }) {
     return this.client.post('/leads', data);
   }
 
-  // Contact endpoints
+  // Contact endpoints (ACTIVE - used in ContactSection.tsx)
   async submitContactForm(data: any) {
     return this.client.post('/contact', data);
   }
 
-  // Collectors endpoints
+  // Collectors endpoints (UNUSED - use direct axios in vendor-onboarding instead)
   async getCollectors() {
     return this.client.get('/collectors');
   }
 
   async getCollectorProfile(id: string) {
     return this.client.get(`/collectors/${id}`);
+  }
+
+  // Generic HTTP methods for direct use
+  async post(url: string, data: any, config?: any) {
+    return this.client.post(url, data, config);
+  }
+
+  async get(url: string, config?: any) {
+    return this.client.get(url, config);
+  }
+
+  async put(url: string, data: any, config?: any) {
+    return this.client.put(url, data, config);
+  }
+
+  async delete(url: string, config?: any) {
+    return this.client.delete(url, config);
   }
 }
 

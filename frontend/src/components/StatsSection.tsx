@@ -24,10 +24,10 @@ export const StatsSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-16 md:py-24 lg:py-32 bg-white">
       <div className="container-responsive">
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10"
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
